@@ -1,10 +1,3 @@
-//
-//  Badge.swift
-//  PharmacyApp
-//
-//  Created by Omar Al dulaimi on 2025-03-02.
-//
-
 import Foundation
 
 struct Badge: Identifiable, Codable {
@@ -15,6 +8,7 @@ struct Badge: Identifiable, Codable {
     var dateEarned: Date
     var category: BadgeCategory
     var points: Int
+    var isUnlocked: Bool = false
     
     enum BadgeCategory: String, Codable {
         case adherence = "Medication Adherence"
@@ -33,7 +27,8 @@ struct Badge: Identifiable, Codable {
                 imageName: "badge_adherence_star",
                 dateEarned: now.addingTimeInterval(-86400 * 15),
                 category: .adherence,
-                points: 100
+                points: 100,
+                isUnlocked: false
             ),
             Badge(
                 title: "Flu Fighter",
@@ -41,7 +36,8 @@ struct Badge: Identifiable, Codable {
                 imageName: "badge_vaccine_flu",
                 dateEarned: now.addingTimeInterval(-86400 * 45),
                 category: .vaccine,
-                points: 75
+                points: 75,
+                isUnlocked: false
             ),
             Badge(
                 title: "Health Scholar",
@@ -49,7 +45,8 @@ struct Badge: Identifiable, Codable {
                 imageName: "badge_health_info",
                 dateEarned: now.addingTimeInterval(-86400 * 10),
                 category: .healthInfo,
-                points: 50
+                points: 50,
+                isUnlocked: false
             ),
             Badge(
                 title: "Medication Master",
@@ -57,7 +54,8 @@ struct Badge: Identifiable, Codable {
                 imageName: "badge_meds_check",
                 dateEarned: now.addingTimeInterval(-86400 * 30),
                 category: .medsCheck,
-                points: 125
+                points: 125,
+                isUnlocked: false
             ),
             Badge(
                 title: "Family Caretaker",
@@ -65,7 +63,8 @@ struct Badge: Identifiable, Codable {
                 imageName: "badge_family_care",
                 dateEarned: now.addingTimeInterval(-86400 * 5),
                 category: .activity,
-                points: 75
+                points: 75,
+                isUnlocked: false
             )
         ]
     }

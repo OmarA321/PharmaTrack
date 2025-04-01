@@ -9,13 +9,13 @@ import Foundation
 import Foundation
 
 struct Minigame: Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let difficultyLevel: String
-    let timeToPlay: String
-    let pointsToEarn: Int
-    let imageName: String
+        let id: String
+        let name: String
+        let description: String
+        let difficultyLevel: String
+        let timeToPlay: String
+        let pointsToEarn: Int
+        let imageName: String
     
     // Sample data for preview and testing
     static var examples: [Minigame] {

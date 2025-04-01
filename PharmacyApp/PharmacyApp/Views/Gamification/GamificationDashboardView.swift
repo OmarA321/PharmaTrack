@@ -7,10 +7,19 @@
 
 import SwiftUI
 
+
+
+
 struct GamificationDashboardView: View {
     @EnvironmentObject private var gamificationViewModel: GamificationViewModel
     @EnvironmentObject private var userViewModel: UserViewModel
     @State private var selectedTab = 0
+    
+    // New state variables for game selection
+    @State private var selectedGame: Minigame?
+    @State private var isGameActive = false
+    @State private var showingCompletionAlert = false
+    @State private var lastGameWon = false
     
     var body: some View {
         ZStack {
@@ -164,92 +173,97 @@ struct GamificationDashboardView: View {
                     }
                     .tag(1)
                     
-                    // Health Info Tab
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(gamificationViewModel.healthInfos) { healthInfo in
-                                HealthInfoCard(healthInfo: healthInfo)
-                                    .onTapGesture {
-                                        // In a real app, this would navigate to the health info detail
-                                        gamificationViewModel.markHealthInfoAsRead(healthInfo.id)
-                                    }
-                            }
-                        }
-                        .padding()
-                    }
-                    .tag(2)
-                    
                     // Minigames Tab
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            // Stats
-                            HStack {
-                                Spacer()
-                                
-                                VStack {
-                                    Text("\(gamificationViewModel.minigamesPlayed)")
-                                        .font(.system(size: 28, weight: .bold))
-                                        .foregroundColor(Color("PrimaryBlue"))
-                                    
-                                    Text("Games Played")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
+                                        ScrollView {
+                                            VStack(spacing: 20) {
+                                                // Stats
+                                                HStack {
+                                                    Spacer()
+                                                    
+                                                    VStack {
+                                                        Text("\(gamificationViewModel.minigamesPlayed)")
+                                                            .font(.system(size: 28, weight: .bold))
+                                                            .foregroundColor(Color("PrimaryBlue"))
+                                                        
+                                                        Text("Games Played")
+                                                            .font(.caption)
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                    
+                                                    Spacer()
+                                                    
+                                                    VStack {
+                                                        Text("\(gamificationViewModel.minigamesWon)")
+                                                            .font(.system(size: 28, weight: .bold))
+                                                            .foregroundColor(Color("PrimaryBlue"))
+                                                        
+                                                        Text("Games Won")
+                                                            .font(.caption)
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                    
+                                                    Spacer()
+                                                    
+                                                    VStack {
+                                                        let winRate = gamificationViewModel.minigamesPlayed > 0 ?
+                                                            Double(gamificationViewModel.minigamesWon) / Double(gamificationViewModel.minigamesPlayed) * 100 : 0
+                                                        
+                                                        Text("\(Int(winRate))%")
+                                                            .font(.system(size: 28, weight: .bold))
+                                                            .foregroundColor(Color("PrimaryBlue"))
+                                                        
+                                                        Text("Win Rate")
+                                                            .font(.caption)
+                                                            .foregroundColor(.gray)
+                                                    }
+                                                    
+                                                    Spacer()
+                                                }
+                                                .padding()
+                                                .background(Color.white)
+                                                .cornerRadius(12)
+                                                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                                                
+                                                // Available games
+                                                ScrollView {
+                                                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 160))], spacing: 16) {
+                                                        ForEach(minigames) { game in
+                                                            MinigameCardView(game: game)
+                                                                .onTapGesture {
+                                                                    selectedGame = game
+                                                                    isGameActive = true
+                                                                }
+                                                        }
+                                                    }
+                                                    .padding()
+                                                }
+                                            }
+                                            .padding()
+                                        }
+                                        .tag(3)
+                                    }
+                                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                                 }
-                                
-                                Spacer()
-                                
-                                VStack {
-                                    Text("\(gamificationViewModel.minigamesWon)")
-                                        .font(.system(size: 28, weight: .bold))
-                                        .foregroundColor(Color("PrimaryBlue"))
-                                    
-                                    Text("Games Won")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                                
-                                Spacer()
-                                
-                                VStack {
-                                    let winRate = gamificationViewModel.minigamesPlayed > 0 ?
-                                        Double(gamificationViewModel.minigamesWon) / Double(gamificationViewModel.minigamesPlayed) * 100 : 0
-                                    
-                                    Text("\(Int(winRate))%")
-                                        .font(.system(size: 28, weight: .bold))
-                                        .foregroundColor(Color("PrimaryBlue"))
-                                    
-                                    Text("Win Rate")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                                
-                                Spacer()
                             }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(12)
-                            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-                            
-                            // Available games placeholder
-                            // (In a real app, you would connect this to actual minigames)
-                            Text("Minigames coming soon!")
-                                .font(.headline)
-                                .foregroundColor(Color("TextColor"))
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.white)
-                                .cornerRadius(12)
-                                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                            .sheet(isPresented: $isGameActive) {
+                                if let game = selectedGame {
+                                    GamePlayView(game: game, isPresented: $isGameActive, onComplete: { won in
+                                        gamificationViewModel.recordMinigamePlay(won: won)
+                                        lastGameWon = won
+                                        showingCompletionAlert = true
+                                    })
+                                }
+                            }
+                            .alert(isPresented: $showingCompletionAlert) {
+                                Alert(
+                                    title: Text(lastGameWon ? "Congratulations!" : "Good Try!"),
+                                    message: Text(lastGameWon
+                                                  ? "You've earned points and improved your health knowledge!"
+                                                  : "Keep playing to improve your skills and health knowledge!"),
+                                    dismissButton: .default(Text("OK"))
+                                )
+                            }
                         }
-                        .padding()
-                    }
-                    .tag(3)
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            }
-        }
-    }
-    
     // Sample adherence tips
     private let adherenceTips = [
         "Set alarms on your phone for medication times",
@@ -413,6 +427,46 @@ struct HealthInfoCard: View {
         }
     }
 }
+
+// Add this property to the struct, outside of the body
+private let minigames = [
+    Minigame(
+        id: "game1",
+        name: "Med Match",
+        description: "Match medications with their purposes. Learn about different medications while having fun!",
+        difficultyLevel: "Easy",
+        timeToPlay: "2-3 min",
+        pointsToEarn: 50,
+        imageName: "game_match"
+    ),
+    Minigame(
+        id: "game2",
+        name: "Pill Pursuit",
+        description: "Race to collect your medications on time while avoiding obstacles.",
+        difficultyLevel: "Medium",
+        timeToPlay: "3-5 min",
+        pointsToEarn: 75,
+        imageName: "game_pursuit"
+    ),
+    Minigame(
+        id: "game3",
+        name: "Health Quiz",
+        description: "Test your health knowledge with questions about medications, conditions, and wellness.",
+        difficultyLevel: "Hard",
+        timeToPlay: "5-7 min",
+        pointsToEarn: 100,
+        imageName: "game_quiz"
+    ),
+    Minigame(
+        id: "game5",
+        name: "Medication Match",
+        description: "Test your memory by matching medication pairs. Learn drug names while having fun!",
+        difficultyLevel: "Easy",
+        timeToPlay: "2-3 min",
+        pointsToEarn: 50,
+        imageName: "game_match"
+    )
+]
 
 struct GamificationDashboardView_Previews: PreviewProvider {
     static var previews: some View {

@@ -30,6 +30,7 @@ struct User: Identifiable, Codable {
     var pharmacyName: String?
     var licenseNumber: String?
     
+    
     // For gamification
     var adherenceScore: Int = 0
     var badges: [Badge] = []

@@ -30,6 +30,8 @@ struct SignUpView: View {
     @State private var pharmacyName: String = ""
     @State private var licenseNumber: String = ""
     
+    
+    
     // UI control
     @State private var currentStep: Int = 1
     @State private var showAlert: Bool = false

@@ -1,10 +1,3 @@
-//
-//  BadgesView.swift
-//  PharmacyApp
-//
-//  Created by Omar Al dulaimi on 2025-03-02.
-//
-
 import SwiftUI
 
 struct BadgesView: View {
@@ -186,32 +179,37 @@ struct BadgesView: View {
     }
 }
 
+
 struct BadgeCardView: View {
     let badge: Badge
+    @State private var isUnlocked: Bool = false
+    @State private var animationAmount: CGFloat = 1.0
+    @State private var confettiOpacity: Double = 0.0
     
     var body: some View {
         VStack {
-            // Badge icon (in a real app, this would be an image)
+            // Badge icon
             ZStack {
                 Circle()
-                    .fill(badgeColor.opacity(0.2))
+                    .fill(badge.isUnlocked ? badgeColor.opacity(0.2) : Color.gray.opacity(0.1))
                     .frame(width: 80, height: 80)
                 
-                Image(systemName: badgeIcon)
-                    .font(.system(size: 40))
-                    .foregroundColor(badgeColor)
+                Image(systemName: badge.isUnlocked ? badgeIcon : "lock.fill")
+                    .font(.system(size: badge.isUnlocked ? 40 : 30))
+                    .foregroundColor(badge.isUnlocked ? badgeColor : .gray)
             }
             .padding(.top, 16)
+            .scaleEffect(animationAmount)
             
             Text(badge.title)
                 .font(.headline)
-                .foregroundColor(Color("TextColor"))
+                .foregroundColor(badge.isUnlocked ? Color("TextColor") : .gray)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 8)
             
             Text(badge.description)
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(badge.isUnlocked ? .gray : .gray.opacity(0.5))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 8)
                 .padding(.bottom, 4)
@@ -219,16 +217,75 @@ struct BadgeCardView: View {
             Text("\(badge.points) pts")
                 .font(.caption)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(badge.isUnlocked ? .white : .gray)
                 .padding(.vertical, 4)
                 .padding(.horizontal, 12)
-                .background(badgeColor)
+                .background(badge.isUnlocked ? badgeColor : Color.gray.opacity(0.2))
                 .cornerRadius(12)
                 .padding(.bottom, 16)
         }
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+        .overlay(
+            ZStack {
+                // Confetti effect
+                ForEach(0..<20) { index in
+                    ConfettiParticle()
+                        .opacity(confettiOpacity)
+                        .offset(x: CGFloat.random(in: -100...100),
+                                y: CGFloat.random(in: -100...100))
+                }
+            }
+        )
+        .onTapGesture {
+            if !badge.isUnlocked {
+                // This part would typically be handled by the view model in a real app
+                withAnimation(.spring()) {
+                    animationAmount = 1.2
+                    
+                    // Confetti animation
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        confettiOpacity = 1.0
+                    }
+                    
+                    // Reset animation and confetti
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.spring()) {
+                            animationAmount = 1.0
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            withAnimation(.easeOut(duration: 0.5)) {
+                                confettiOpacity = 0.0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Confetti particle view
+    struct ConfettiParticle: View {
+        private let color: Color
+        private let rotation: Double
+        
+        init() {
+            self.color = Color(
+                red: Double.random(in: 0...1),
+                green: Double.random(in: 0...1),
+                blue: Double.random(in: 0...1)
+            )
+            self.rotation = Double.random(in: 0...360)
+        }
+        
+        var body: some View {
+            Rectangle()
+                .fill(color)
+                .frame(width: 10, height: 5)
+                .rotationEffect(.degrees(rotation))
+        }
     }
     
     // Map badge categories to icons and colors
@@ -239,7 +296,7 @@ struct BadgeCardView: View {
         case .vaccine:
             return "syringe.fill"
         case .medsCheck:
-            return "checklist.fill"
+            return "checkmark.circle.fill"
         case .healthInfo:
             return "heart.text.square.fill"
         case .activity:
@@ -262,6 +319,8 @@ struct BadgeCardView: View {
         }
     }
 }
+
+
 
 // Extension to make Badge.BadgeCategory conform to CaseIterable
 extension Badge.BadgeCategory: CaseIterable {

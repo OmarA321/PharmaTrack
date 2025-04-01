@@ -22,7 +22,18 @@ struct MinigameView: View {
         
         Minigame(id: "game3", name: "Health Quiz", description: "Test your health knowledge with questions about medications, conditions, and general wellness.", difficultyLevel: "Hard", timeToPlay: "5-7 min", pointsToEarn: 100, imageName: "game_quiz"),
         
-        Minigame(id: "game4", name: "Body Explorer", description: "Learn how medications work in the body with this interactive educational game.", difficultyLevel: "Medium", timeToPlay: "4-6 min", pointsToEarn: 75, imageName: "game_explorer")
+        Minigame(id: "game4", name: "Body Explorer", description: "Learn how medications work in the body with this interactive educational game.", difficultyLevel: "Medium", timeToPlay: "4-6 min", pointsToEarn: 75, imageName: "game_explorer"),
+        
+        Minigame(
+                id: "game5",
+                name: "Medication Match",
+                description: "Test your memory by matching medication pairs. Learn drug names while having fun!",
+                difficultyLevel: "Easy",
+                timeToPlay: "2-3 min",
+                pointsToEarn: 50,
+                imageName: "game_match"
+            )
+        
     ]
     
     var body: some View {
@@ -263,16 +274,16 @@ struct BenefitRow: View {
     }
 }
 
-// A placeholder game play view (in a real app, this would be actual game UIs)
 struct GamePlayView: View {
     let game: Minigame
     @Binding var isPresented: Bool
     let onComplete: (Bool) -> Void
     
-    @State private var timeRemaining = 10
+    @State private var timeRemaining = 180 // 3 minutes for memory game
     @State private var timer: Timer?
     @State private var progress = 0.0
     @State private var showingControls = true
+    @State private var gameView: AnyView?
     
     var body: some View {
         VStack(spacing: 20) {
@@ -294,7 +305,7 @@ struct GamePlayView: View {
                         .font(.headline)
                         .foregroundColor(Color("TextColor"))
                     
-                    Text("This is a prototype game interface. In a real app, this would be a fully interactive game experience.")
+                    Text(game.description)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.gray)
                         .padding(.horizontal, 40)
@@ -304,6 +315,33 @@ struct GamePlayView: View {
                         // Start the game
                         showingControls = false
                         startTimer()
+                        
+                        // Dynamically create game view based on game ID
+                        switch game.id {
+                        case "game5": // Medication Match
+                            gameView = AnyView(
+                                MedicationMatchGameView(
+                                    onGameEnd: {
+                                        timer?.invalidate()
+                                        isPresented = false
+                                        onComplete(true) // Always pass true, or determine success based on game performance
+                                    }
+                                )
+                            )
+                        default:
+                            // Existing placeholder game
+                            gameView = AnyView(
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(Color.gray.opacity(0.1))
+                                        .frame(height: 300)
+                                    
+                                    Text("Game in progress...")
+                                        .font(.title3)
+                                        .foregroundColor(Color("TextColor"))
+                                }
+                            )
+                        }
                     }) {
                         Text("Start Game")
                             .font(.headline)
@@ -316,7 +354,7 @@ struct GamePlayView: View {
                     .padding(.horizontal, 40)
                 }
             } else {
-                // Simulated game UI
+                // Game content area
                 VStack(spacing: 20) {
                     // Progress bar
                     ZStack(alignment: .leading) {
@@ -334,39 +372,10 @@ struct GamePlayView: View {
                         .font(.headline)
                         .foregroundColor(Color("TextColor"))
                     
-                    // Simulated game screen (just a placeholder in the prototype)
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color.gray.opacity(0.1))
-                            .frame(height: 300)
-                        
-                        Text("Game in progress...")
-                            .font(.title3)
-                            .foregroundColor(Color("TextColor"))
+                    // Dynamic game view
+                    if let view = gameView {
+                        view
                     }
-                    .padding(.horizontal, 40)
-                    
-                    // Game controls (non-functional in prototype)
-                    HStack(spacing: 40) {
-                        Button(action: {}) {
-                            Image(systemName: "arrow.left")
-                                .font(.system(size: 30))
-                                .foregroundColor(Color("PrimaryBlue"))
-                        }
-                        
-                        Button(action: {}) {
-                            Image(systemName: "arrow.up")
-                                .font(.system(size: 30))
-                                .foregroundColor(Color("PrimaryBlue"))
-                        }
-                        
-                        Button(action: {}) {
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 30))
-                                .foregroundColor(Color("PrimaryBlue"))
-                        }
-                    }
-                    .padding(.vertical, 20)
                 }
             }
             
@@ -375,10 +384,8 @@ struct GamePlayView: View {
             // Exit button
             Button(action: {
                 timer?.invalidate()
-                // 50% chance of winning for demo
-                let won = Bool.random()
                 isPresented = false
-                onComplete(won)
+                onComplete(false)
             }) {
                 Text("End Game")
                     .font(.headline)
@@ -396,6 +403,8 @@ struct GamePlayView: View {
     // Sample icon (in a real app, this would use actual game images)
     private var gameIcon: String {
         switch game.name {
+        case "Medication Match":
+            return "rectangle.grid.2x2.fill"
         case "Med Match":
             return "rectangle.grid.2x2.fill"
         case "Pill Pursuit":
@@ -414,13 +423,11 @@ struct GamePlayView: View {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             if timeRemaining > 0 {
                 timeRemaining -= 1
-                progress = Double(10 - timeRemaining) / 10.0
+                progress = Double(180 - timeRemaining) / 180.0
             } else {
                 timer?.invalidate()
-                // 50% chance of winning for demo
-                let won = Bool.random()
                 isPresented = false
-                onComplete(won)
+                onComplete(false)
             }
         }
     }
