@@ -300,10 +300,11 @@ struct NewPrescriptionView: View {
         
         // Generate a new prescription with status .requestReceived
         let newRx = "RX\(Int.random(in: 100000...999999))"
+        let prescriptionId = UUID().uuidString
         
         // Create the basic prescription object
         var newPrescription = Prescription(
-            id: UUID().uuidString,
+            id: prescriptionId,
             rxNumber: newRx,
             medicationName: isUsingPhotoMethod ? "Prescription from Photo" : medicationName,
             dosage: isUsingPhotoMethod ? "To be determined" : dosage,
@@ -325,17 +326,43 @@ struct NewPrescriptionView: View {
             notifiedOnStatusChange: true
         )
         
-        // Add details about the image if using photo method
-        if isUsingPhotoMethod {
-            newPrescription.notes = "Prescription submitted via photo. Doctor: \(doctorName)"
-            // In a real app, we would save the image to storage and associate it with the prescription
+        if isUsingPhotoMethod && prescriptionImage != nil {
+            // Upload the image first, then create the prescription
+            StorageService.shared.uploadPrescriptionImage(image: prescriptionImage!, prescriptionId: prescriptionId) { result in
+                switch result {
+                case .success(let imageUrl):
+                    // Add the image URL to the prescription
+                    newPrescription.notes = "Prescription submitted via photo. Doctor: \(self.doctorName)"
+                    newPrescription.imageUrl = imageUrl
+                    
+                    // Now submit the prescription
+                    self.prescriptionViewModel.submitPrescriptionRequest(prescription: newPrescription)
+                    
+                    DispatchQueue.main.async {
+                        self.showingSuccess = true
+                    }
+                    
+                case .failure(let error):
+                    print("Error uploading image: \(error.localizedDescription)")
+                    
+                    // Still create the prescription, but without the image
+                    newPrescription.notes = "Prescription submitted via photo (image upload failed). Doctor: \(self.doctorName)"
+                    self.prescriptionViewModel.submitPrescriptionRequest(prescription: newPrescription)
+                    
+                    DispatchQueue.main.async {
+                        self.showingSuccess = true
+                    }
+                }
+            }
+        } else {
+            // For text-only prescriptions, no need to upload an image
+            if !doctorName.isEmpty {
+                newPrescription.notes = "Doctor: \(doctorName)"
+            }
+            
+            prescriptionViewModel.submitPrescriptionRequest(prescription: newPrescription)
+            showingSuccess = true
         }
-        
-        // Add the prescription to the view model
-        prescriptionViewModel.prescriptions.append(newPrescription)
-        
-        // Show success message
-        showingSuccess = true
     }
 }
 

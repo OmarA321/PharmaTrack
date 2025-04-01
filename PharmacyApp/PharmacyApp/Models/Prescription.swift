@@ -43,9 +43,11 @@ struct Prescription: Identifiable, Codable {
     var forUser: String  // User ID or family member ID
     var forUserName: String // User or family member name
     var statusHistory: [StatusUpdate] = []
-    var notes: String?
+    var notes: String?  
     var pharmacistMessage: String? // Legacy field - kept for backward compatibility
     var pharmacistMessages: [ChatMessage]? // New field for two-way messaging
+    var imageUrl: String?
+
     
     // Cost info
     var totalCost: Double?
