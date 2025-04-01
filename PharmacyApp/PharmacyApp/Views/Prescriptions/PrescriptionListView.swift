@@ -13,6 +13,7 @@ struct PrescriptionListView: View {
     @State private var showingFilter = false
     @State private var filteredStatus: PrescriptionStatus?
     @State private var showingNewPrescription = false
+    @State private var isRefreshing = false
     
     var filteredPrescriptions: [Prescription] {
         if let status = filteredStatus {
@@ -27,13 +28,27 @@ struct PrescriptionListView: View {
             Color(.systemGray6).edgesIgnoringSafeArea(.all)
             
             VStack {
-                // Filter bar
+                // Filter and refresh bar
                 HStack {
                     Text("Filter by:")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                     
                     Spacer()
+                    
+                    // Add refresh button
+                    Button(action: refreshPrescriptions) {
+                        Label {
+                            Text("Refresh")
+                                .font(.subheadline)
+                        } icon: {
+                            Image(systemName: isRefreshing ? "arrow.triangle.2.circlepath.circle.fill" : "arrow.triangle.2.circlepath")
+                                .rotationEffect(isRefreshing ? .degrees(360) : .degrees(0))
+                                .animation(isRefreshing ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isRefreshing)
+                        }
+                        .foregroundColor(.blue)
+                        .padding(.trailing, 8)
+                    }
                     
                     Menu {
                         Button(action: {
@@ -137,6 +152,27 @@ struct PrescriptionListView: View {
             NewPrescriptionView()
                 .environmentObject(prescriptionViewModel)
                 .environmentObject(userViewModel)
+        }
+        .onAppear {
+            // Force reload prescriptions when view appears
+            if let userId = userViewModel.currentUser?.id {
+                refreshPrescriptions()
+            }
+        }
+    }
+    
+    // Function to manually refresh prescriptions
+    private func refreshPrescriptions() {
+        guard let userId = userViewModel.currentUser?.id else { return }
+        
+        isRefreshing = true
+        
+        // The loadUserPrescriptions method already removes the existing listener
+        prescriptionViewModel.loadUserPrescriptions(userId: userId)
+        
+        // Show the refresh animation for a short time
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.isRefreshing = false
         }
     }
 }

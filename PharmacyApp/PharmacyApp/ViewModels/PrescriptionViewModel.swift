@@ -39,6 +39,22 @@ class PrescriptionViewModel: ObservableObject {
     
     // MARK: - Firestore Data Operations
     
+    // Add this function to PrescriptionViewModel.swift
+    // This ensures the selected prescription stays updated
+
+    func refreshSelectedPrescription() {
+        guard let selected = selectedPrescription else { return }
+        
+        // Check if the selected prescription is still in our list
+        if let updatedPrescription = prescriptions.first(where: { $0.id == selected.id }) {
+            // If it is, update it with the latest data
+            self.selectedPrescription = updatedPrescription
+        }
+    }
+
+    // Modify the existing loadUserPrescriptions function in PrescriptionViewModel.swift
+    // to ensure better real-time updates
+
     func loadUserPrescriptions(userId: String) {
         isLoading = true
         errorMessage = nil
@@ -55,6 +71,7 @@ class PrescriptionViewModel: ObservableObject {
                 
                 switch result {
                 case .success(let prescriptions):
+                    // Sort prescriptions by prescribed date, most recent first
                     self.prescriptions = prescriptions.sorted(by: { $0.prescribedDate > $1.prescribedDate })
                     self.errorMessage = nil
                     
@@ -62,14 +79,29 @@ class PrescriptionViewModel: ObservableObject {
                     if let selectedId = self.selectedPrescription?.id,
                        let updatedPrescription = prescriptions.first(where: { $0.id == selectedId }) {
                         self.selectedPrescription = updatedPrescription
+                        
+                        // Post a notification that the prescription was updated
+                        NotificationCenter.default.post(
+                            name: Notification.Name("PrescriptionUpdated"),
+                            object: nil,
+                            userInfo: ["prescriptionId": selectedId]
+                        )
+                    }
+                    
+                    // Log updated prescriptions to help with debugging
+                    print("Updated prescriptions: \(prescriptions.count)")
+                    for prescription in prescriptions {
+                        print("  - \(prescription.id): \(prescription.medicationName) Status: \(prescription.status.rawValue)")
                     }
                     
                 case .failure(let error):
                     self.errorMessage = "Failed to load prescriptions: \(error.localizedDescription)"
+                    print("Error loading prescriptions: \(error)")
                 }
             }
         }
     }
+    
     
     func selectPrescription(_ prescription: Prescription) {
         self.selectedPrescription = prescription

@@ -284,21 +284,52 @@ class PrescriptionFirestoreService {
     
     // MARK: - Listen for Changes
     
-    // This method sets up a listener for prescription changes
+
     func listenForPrescriptionChanges(userId: String, completion: @escaping (Result<[Prescription], Error>) -> Void) -> ListenerRegistration {
+        print("Setting up Firebase listener for prescriptions. User ID: \(userId)")
+        
         return db.collection(prescriptionsCollection)
             .whereField("forUser", isEqualTo: userId)
             .addSnapshotListener { (snapshot, error) in
                 if let error = error {
+                    print("Firebase listener error: \(error.localizedDescription)")
                     completion(.failure(error))
                     return
                 }
                 
+                guard let documents = snapshot?.documents else {
+                    print("No documents in snapshot")
+                    completion(.success([]))
+                    return
+                }
+                
+                print("Received \(documents.count) prescriptions from Firebase")
+                
                 var prescriptions: [Prescription] = []
                 
-                for document in snapshot?.documents ?? [] {
+                for document in documents {
                     if let prescription = self.prescriptionFromDictionary(document.data(), id: document.documentID) {
                         prescriptions.append(prescription)
+                        print("Processed prescription: \(prescription.id), Status: \(prescription.status.rawValue)")
+                    } else {
+                        print("Failed to parse prescription from document: \(document.documentID)")
+                    }
+                }
+                
+                // Document changes
+                if let changes = snapshot?.documentChanges {
+                    for change in changes {
+                        switch change.type {
+                        case .added:
+                            print("Document added: \(change.document.documentID)")
+                        case .modified:
+                            print("Document modified: \(change.document.documentID)")
+                            if let data = change.document.data()["status"] as? String {
+                                print("  New status: \(data)")
+                            }
+                        case .removed:
+                            print("Document removed: \(change.document.documentID)")
+                        }
                     }
                 }
                 

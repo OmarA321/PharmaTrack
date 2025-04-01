@@ -200,23 +200,47 @@ struct FullScreenImageView: View {
 
 struct PrescriptionDetailView: View {
     @EnvironmentObject private var prescriptionViewModel: PrescriptionViewModel
-    @State var prescription: Prescription
-    @State private var isTrackingExpanded = true
-    @State private var messageText = ""
-    @State private var showingChatInput = false
+        @State var prescription: Prescription
+        @State private var isTrackingExpanded = true
+        @State private var messageText = ""
+        @State private var showingChatInput = false
     
+    @State private var notificationToken: NSObjectProtocol? = nil
+
     // Date formatter
     private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
-    }()
+          let formatter = DateFormatter()
+          formatter.dateStyle = .medium
+          formatter.timeStyle = .short
+          return formatter
+      }()
     
     var hasPharmacistMessage: Bool {
         return (prescription.pharmacistMessage != nil && !prescription.pharmacistMessage!.isEmpty) ||
                (prescription.pharmacistMessages != nil && !prescription.pharmacistMessages!.isEmpty)
     }
+    
+    private func setupNotificationObserver() {
+         // Remove any existing observer
+         if let token = notificationToken {
+             NotificationCenter.default.removeObserver(token)
+         }
+         
+         // Set up a new observer
+         notificationToken = NotificationCenter.default.addObserver(
+             forName: Notification.Name("PrescriptionUpdated"),
+             object: nil,
+             queue: .main
+         ) { notification in
+             if let prescriptionId = notification.userInfo?["prescriptionId"] as? String,
+                prescriptionId == prescription.id,
+                let updatedPrescription = prescriptionViewModel.prescriptions.first(where: { $0.id == prescriptionId }) {
+                 // Update our local state with the new prescription data
+                 self.prescription = updatedPrescription
+                 print("Detail view updated prescription: \(updatedPrescription.status.rawValue)")
+             }
+         }
+     }
     
     var body: some View {
         ScrollView {
@@ -581,6 +605,21 @@ struct PrescriptionDetailView: View {
         .background(Color(.systemGray6))
         .navigationTitle("Prescription Details")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+                    setupNotificationObserver()
+                    
+                    // Also refresh from the ViewModel when the view appears
+                    if let updated = prescriptionViewModel.prescriptions.first(where: { $0.id == prescription.id }) {
+                        prescription = updated
+                    }
+                }
+                .onDisappear {
+                    // Clean up when the view disappears
+                    if let token = notificationToken {
+                        NotificationCenter.default.removeObserver(token)
+                        notificationToken = nil
+                    }
+                }
     }
     
     private func sendMessage() {
