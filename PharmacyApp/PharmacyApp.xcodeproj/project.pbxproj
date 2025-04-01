@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DC4E44502D9B4F0200A5A7E5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E444F2D9B4F0200A5A7E5 /* FirebaseAuth */; };
+		DC4E44522D9B4F0200A5A7E5 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44512D9B4F0200A5A7E5 /* FirebaseAuthCombine-Community */; };
+		DC4E44542D9B4F0200A5A7E5 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44532D9B4F0200A5A7E5 /* FirebaseCore */; };
+		DC4E44562D9B4F0200A5A7E5 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44552D9B4F0200A5A7E5 /* FirebaseDatabase */; };
+		DC4E44582D9B4F0200A5A7E5 /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44572D9B4F0200A5A7E5 /* FirebaseDynamicLinks */; };
+		DC4E445A2D9B4F0200A5A7E5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44592D9B4F0200A5A7E5 /* FirebaseFirestore */; };
+		DC4E445C2D9B4F0200A5A7E5 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E445B2D9B4F0200A5A7E5 /* FirebaseFirestoreCombine-Community */; };
+		DC4E445E2D9B4F0200A5A7E5 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E445D2D9B4F0200A5A7E5 /* FirebaseFunctions */; };
+		DC4E44602D9B4F0200A5A7E5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E445F2D9B4F0200A5A7E5 /* FirebaseStorage */; };
+		DC4E44622D9B4F0200A5A7E5 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DC4E44612D9B4F0200A5A7E5 /* FirebaseStorageCombine-Community */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DC39795B2D74EB1100D01B4B /* PharmacyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PharmacyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		DC39795D2D74EB1100D01B4B /* PharmacyApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PharmacyApp;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DC3979582D74EB1100D01B4B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC4E44502D9B4F0200A5A7E5 /* FirebaseAuth in Frameworks */,
+				DC4E44542D9B4F0200A5A7E5 /* FirebaseCore in Frameworks */,
+				DC4E44622D9B4F0200A5A7E5 /* FirebaseStorageCombine-Community in Frameworks */,
+				DC4E44602D9B4F0200A5A7E5 /* FirebaseStorage in Frameworks */,
+				DC4E44562D9B4F0200A5A7E5 /* FirebaseDatabase in Frameworks */,
+				DC4E445E2D9B4F0200A5A7E5 /* FirebaseFunctions in Frameworks */,
+				DC4E44522D9B4F0200A5A7E5 /* FirebaseAuthCombine-Community in Frameworks */,
+				DC4E44582D9B4F0200A5A7E5 /* FirebaseDynamicLinks in Frameworks */,
+				DC4E445A2D9B4F0200A5A7E5 /* FirebaseFirestore in Frameworks */,
+				DC4E445C2D9B4F0200A5A7E5 /* FirebaseFirestoreCombine-Community in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC3979522D74EB1100D01B4B = {
+			isa = PBXGroup;
+			children = (
+				DC39795D2D74EB1100D01B4B /* PharmacyApp */,
+				DC39795C2D74EB1100D01B4B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC39795C2D74EB1100D01B4B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC39795B2D74EB1100D01B4B /* PharmacyApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DC39795A2D74EB1100D01B4B /* PharmacyApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC3979692D74EB1400D01B4B /* Build configuration list for PBXNativeTarget "PharmacyApp" */;
+			buildPhases = (
+				DC3979572D74EB1100D01B4B /* Sources */,
+				DC3979582D74EB1100D01B4B /* Frameworks */,
+				DC3979592D74EB1100D01B4B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DC39795D2D74EB1100D01B4B /* PharmacyApp */,
+			);
+			name = PharmacyApp;
+			packageProductDependencies = (
+				DC4E444F2D9B4F0200A5A7E5 /* FirebaseAuth */,
+				DC4E44512D9B4F0200A5A7E5 /* FirebaseAuthCombine-Community */,
+				DC4E44532D9B4F0200A5A7E5 /* FirebaseCore */,
+				DC4E44552D9B4F0200A5A7E5 /* FirebaseDatabase */,
+				DC4E44572D9B4F0200A5A7E5 /* FirebaseDynamicLinks */,
+				DC4E44592D9B4F0200A5A7E5 /* FirebaseFirestore */,
+				DC4E445B2D9B4F0200A5A7E5 /* FirebaseFirestoreCombine-Community */,
+				DC4E445D2D9B4F0200A5A7E5 /* FirebaseFunctions */,
+				DC4E445F2D9B4F0200A5A7E5 /* FirebaseStorage */,
+				DC4E44612D9B4F0200A5A7E5 /* FirebaseStorageCombine-Community */,
+			);
+			productName = PharmacyApp;
+			productReference = DC39795B2D74EB1100D01B4B /* PharmacyApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DC3979532D74EB1100D01B4B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					DC39795A2D74EB1100D01B4B = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = DC3979562D74EB1100D01B4B /* Build configuration list for PBXProject "PharmacyApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DC3979522D74EB1100D01B4B;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DC39795C2D74EB1100D01B4B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DC39795A2D74EB1100D01B4B /* PharmacyApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DC3979592D74EB1100D01B4B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DC3979572D74EB1100D01B4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DC3979672D74EB1400D01B4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DC3979682D74EB1400D01B4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DC39796A2D74EB1400D01B4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PharmacyApp/Preview Content\"";
+				DEVELOPMENT_TEAM = NW93ULW7FN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"PharmacyApp needs camera access to take photos of prescriptions for submission.\"";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"PharmacyApp needs photo library access to upload prescription images.\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Omar.PharmacyApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DC39796B2D74EB1400D01B4B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PharmacyApp/Preview Content\"";
+				DEVELOPMENT_TEAM = NW93ULW7FN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"PharmacyApp needs camera access to take photos of prescriptions for submission.\"";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"PharmacyApp needs photo library access to upload prescription images.\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Omar.PharmacyApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DC3979562D74EB1100D01B4B /* Build configuration list for PBXProject "PharmacyApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC3979672D74EB1400D01B4B /* Debug */,
+				DC3979682D74EB1400D01B4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC3979692D74EB1400D01B4B /* Build configuration list for PBXNativeTarget "PharmacyApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC39796A2D74EB1400D01B4B /* Debug */,
+				DC39796B2D74EB1400D01B4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.11.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC4E444F2D9B4F0200A5A7E5 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		DC4E44512D9B4F0200A5A7E5 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		DC4E44532D9B4F0200A5A7E5 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		DC4E44552D9B4F0200A5A7E5 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		DC4E44572D9B4F0200A5A7E5 /* FirebaseDynamicLinks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDynamicLinks;
+		};
+		DC4E44592D9B4F0200A5A7E5 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		DC4E445B2D9B4F0200A5A7E5 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		DC4E445D2D9B4F0200A5A7E5 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		DC4E445F2D9B4F0200A5A7E5 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		DC4E44612D9B4F0200A5A7E5 /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC4E444E2D9B4F0200A5A7E5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DC3979532D74EB1100D01B4B /* Project object */;
+}
