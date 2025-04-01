@@ -1,4 +1,202 @@
+
+import Foundation
 import SwiftUI
+
+// First, let's create a reusable AsyncImage component for prescription images
+struct PrescriptionImageView: View {
+    let imageUrl: String?
+    @State private var isExpanded = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Prescription Image")
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            if let urlString = imageUrl, let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Rectangle()
+                                .fill(Color(.systemGray5))
+                                .cornerRadius(12)
+                            
+                            VStack {
+                                ProgressView()
+                                    .padding(.bottom, 8)
+                                Text("Loading image...")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(height: 200)
+                    
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(12)
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            .frame(maxHeight: 300)
+                            .onTapGesture {
+                                isExpanded = true
+                            }
+                    
+                    case .failure:
+                        ZStack {
+                            Rectangle()
+                                .fill(Color(.systemGray5))
+                                .cornerRadius(12)
+                            
+                            VStack {
+                                Image(systemName: "exclamationmark.triangle")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.orange)
+                                
+                                Text("Failed to load image")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                                    .padding(.top, 8)
+                            }
+                        }
+                        .frame(height: 200)
+                    
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .sheet(isPresented: $isExpanded) {
+                    FullScreenImageView(imageUrl: urlString)
+                }
+            } else {
+                ZStack {
+                    Rectangle()
+                        .fill(Color(.systemGray5))
+                        .cornerRadius(12)
+                    
+                    VStack {
+                        Image(systemName: "photo.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.gray)
+                        
+                        Text("No prescription image available")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.top, 8)
+                    }
+                }
+                .frame(height: 200)
+            }
+        }
+    }
+}
+
+// Full-screen image view with zoom capabilities
+struct FullScreenImageView: View {
+    let imageUrl: String
+    @Environment(\.presentationMode) var presentationMode
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var lastOffset: CGSize = .zero
+    
+    var body: some View {
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                            .font(.title)
+                            .padding()
+                    }
+                }
+                
+                Spacer()
+                
+                if let url = URL(string: imageUrl) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .foregroundColor(.white)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .scaleEffect(scale)
+                                .offset(offset)
+                                .gesture(
+                                    MagnificationGesture()
+                                        .onChanged { value in
+                                            let delta = value / lastScale
+                                            lastScale = value
+                                            scale = min(max(scale * delta, 1.0), 5.0)
+                                        }
+                                        .onEnded { _ in
+                                            lastScale = 1.0
+                                        }
+                                )
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            offset = CGSize(
+                                                width: lastOffset.width + value.translation.width,
+                                                height: lastOffset.height + value.translation.height
+                                            )
+                                        }
+                                        .onEnded { _ in
+                                            lastOffset = offset
+                                        }
+                                )
+                                .gesture(
+                                    TapGesture(count: 2)
+                                        .onEnded {
+                                            if scale > 1.0 {
+                                                withAnimation {
+                                                    scale = 1.0
+                                                    offset = .zero
+                                                    lastOffset = .zero
+                                                }
+                                            } else {
+                                                withAnimation {
+                                                    scale = 3.0
+                                                }
+                                            }
+                                        }
+                                )
+                        case .failure:
+                            VStack {
+                                Image(systemName: "exclamationmark.triangle")
+                                    .font(.system(size: 60))
+                                    .foregroundColor(.orange)
+                                
+                                Text("Failed to load image")
+                                    .foregroundColor(.white)
+                                    .padding(.top, 16)
+                            }
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                }
+                
+                Spacer()
+                
+                Text("Double-tap to zoom, pinch to adjust zoom level")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 20)
+            }
+        }
+    }
+}
 
 struct PrescriptionDetailView: View {
     @EnvironmentObject private var prescriptionViewModel: PrescriptionViewModel
@@ -46,6 +244,14 @@ struct PrescriptionDetailView: View {
                         .font(.body)
                         .foregroundColor(.primary)
                         .padding(.top, 4)
+                    
+                    // Display prescription image if available
+                    if let imageUrl = prescription.imageUrl, !imageUrl.isEmpty {
+                        Divider()
+                            .padding(.vertical, 8)
+                        
+                        PrescriptionImageView(imageUrl: imageUrl)
+                    }
                     
                     Divider()
                         .padding(.vertical, 8)

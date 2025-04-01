@@ -21,6 +21,9 @@ struct NewPrescriptionView: View {
     @State private var prescriptionImage: UIImage?
     @State private var isUsingPhotoMethod = false
     
+    // Agreement checkbox
+    @State private var agreeToTerms: Bool = false
+    
     // Get user options for picker
     var userOptions: [(id: String, name: String)] {
         var options = [(id: userViewModel.currentUser?.id ?? "", name: "\(userViewModel.currentUser?.firstName ?? "") \(userViewModel.currentUser?.lastName ?? "") (Self)")]
@@ -246,17 +249,47 @@ struct NewPrescriptionView: View {
                             .padding(.horizontal)
                         }
                         
+                        // Agreement section
+                        VStack(spacing: 10) {
+                            HStack(alignment: .top, spacing: 12) {
+                                Button(action: {
+                                    agreeToTerms.toggle()
+                                }) {
+                                    Image(systemName: agreeToTerms ? "checkmark.square.fill" : "square")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(agreeToTerms ? .green : .gray)
+                                }
+                                
+                                Text("I understand that I must bring the original prescription to the pharmacy in person for final verification, even after submitting this digital request.")
+                                    .font(.subheadline)
+                                    .foregroundColor(.primary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 1)
+                            
+                            if !agreeToTerms {
+                                Text("You must agree to bring the original prescription to the pharmacy")
+                                    .font(.caption)
+                                    .foregroundColor(.red)
+                                    .padding(.horizontal)
+                            }
+                        }
+                        .padding(.horizontal)
+                        
                         // Submit button
                         Button(action: submitRequest) {
                             Text("Submit Prescription Request")
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(isFormValid ? Color.blue : Color.gray)
+                                .background(isFormValid && agreeToTerms ? Color.blue : Color.gray)
                                 .cornerRadius(10)
                                 .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
                         }
-                        .disabled(!isFormValid)
+                        .disabled(!isFormValid || !agreeToTerms)
                         .buttonStyle(PlainButtonStyle())
                         .padding(.horizontal)
                         .padding(.bottom, 20)
